@@ -18,7 +18,7 @@ try:
     ServerSocket.bind((host, port))
 except socket.error as e:
     print(str(e))
-
+numClientes = 25
 # Funcion para imprimir los archivos diponibles en el servidor (prueba100MB y prueba250 MB)
 def print_files():
     files_server = os.listdir('./files/')
@@ -112,7 +112,7 @@ def threaded_client(connection, connectionUDP, serverAdr):
 
 # Contador del numero de threads local para el while
 ThreadCount = 0
-numClientes = 25
+
 # Creacion de threads, entablar conexiones y iniciar el metodo threade_client de cada thread
 while ThreadCount < numClientes:
     Client, address = ServerSocket.accept()
