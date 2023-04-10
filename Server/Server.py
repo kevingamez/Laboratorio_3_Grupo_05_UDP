@@ -18,7 +18,7 @@ try:
     ServerSocket.bind((host, port))
 except socket.error as e:
     print(str(e))
-numClientes = 25
+
 # Funcion para imprimir los archivos diponibles en el servidor (prueba100MB y prueba250 MB)
 def print_files():
     files_server = os.listdir('./files/')
@@ -49,7 +49,8 @@ def write_log_file (file_name, file_size, num_client, status_file, start_time, f
     log_file.write("Paquetes enviados: " + str(int(file_size/30000)) + "\n")
     log_file.write("Total de bytes enviados: " + str(int(file_size + ((file_size/30000) * 8))) + "\n")
 
-
+# Ingresar el numero de clientes a conectar al servicio
+NUM_CLIENTES = int(input("Ingrese el numero de clientes a conectar: "))
 
 # Imprimir en la consola los archivos disponibles para hacer el envio a los clientes
 print_files()
@@ -81,25 +82,25 @@ def threaded_client(connection, connectionUDP, serverAdr):
     with connection as c:
         data = c.recv(BUFFER_SIZE)
             
-        numClientes =  int(data.decode('utf-8'))
-        contador+=1
-        numero = contador 
-        while contador < numClientes:   
-            continue 
-        extension = FILE_NAME.split('.')[2]
-        c.send(f"Cliente{numero}-Prueba-{numClientes}.{extension}{SEPARATOR}{FILE_SIZE}".encode())
+        if data.decode('utf-8')=="listo":
+            contador+=1
+            numero = contador 
+            while contador < NUM_CLIENTES:   
+                continue 
+            extension = FILE_NAME.split('.')[2]
+            c.send(f"Cliente{numero}-Prueba-{NUM_CLIENTES}.{extension}{SEPARATOR}{FILE_SIZE}{SEPARATOR}{NUM_CLIENTES}".encode())
 
-        mensaje, address = connectionUDP.recvfrom(BUFFER_SIZE_UDP)
-        with open(FILE_NAME, "rb") as f:
-            while True:
-                # leer los bytes del archivo
-                bytes_read = f.read(BUFFER_SIZE_UDP)
+            mensaje, address = connectionUDP.recvfrom(BUFFER_SIZE_UDP)
+            with open(FILE_NAME, "rb") as f:
+                while True:
+                    # leer los bytes del archivo
+                    bytes_read = f.read(BUFFER_SIZE_UDP)
 
-                if not bytes_read:
-                    break
+                    if not bytes_read:
+                        break
 
-                # Enviar el paquete por el socket UDP
-                connectionUDP.sendto(bytes_read, address)
+                    # Enviar el paquete por el socket UDP
+                    connectionUDP.sendto(bytes_read, address)
 
     # Cerrar la conexion del socket     
     connectionUDP.close()
@@ -114,10 +115,10 @@ def threaded_client(connection, connectionUDP, serverAdr):
 ThreadCount = 0
 
 # Creacion de threads, entablar conexiones y iniciar el metodo threade_client de cada thread
-while ThreadCount < numClientes:
+while ThreadCount < NUM_CLIENTES:
     Client, address = ServerSocket.accept()
     print("Conectado con: " + address[0] + ":" + str(address[1]))
-    print(str(numClientes))
+
     # Creacion del socket UDP
     ServerSockUDP = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     server_address = (host, portUDP)
