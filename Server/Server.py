@@ -117,7 +117,7 @@ ThreadCount = 0
 while ThreadCount < numClientes:
     Client, address = ServerSocket.accept()
     print("Conectado con: " + address[0] + ":" + str(address[1]))
-
+    print(str(numClientes))
     # Creacion del socket UDP
     ServerSockUDP = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     server_address = (host, portUDP)
