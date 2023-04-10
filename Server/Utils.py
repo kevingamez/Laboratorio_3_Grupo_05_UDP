@@ -13,9 +13,9 @@ def print_files():
 def get_file (num_file):
     archivo = ''
     if num_file == "1":
-        archivo = './files/prueba100MB.txt'
+        archivo = './files/100MB.txt'
     elif num_file == "2":
-        archivo = './files/prueba250MB.txt'
+        archivo = './files/250MB.txt'
     return archivo
 
 # Funcion para generar el archivo de log en el directorio llamado Logs con la informacion determinada en la guia
