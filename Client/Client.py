@@ -26,7 +26,7 @@ def correr_clientes(ClientSocket, ClientSocketUDP, ServerAddress):
     try:
         ClientSocket.connect((HOST, PORT))
      
-        ClientSocket.send(str.encode(numClientes))
+        ClientSocket.send(str.encode(str(numClientes)))
         received = ClientSocket.recv(BUFFER_SIZE).decode()
 
         filename, filesize = received.split(SEPARATOR)
