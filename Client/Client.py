@@ -1,7 +1,6 @@
 import socket
 import os
 import threading
-from Utils import write_log_file
 import time
 from datetime import datetime
 
@@ -49,19 +48,13 @@ def correr_clientes(ClientSocket, ClientSocketUDP, ServerAddress):
         print("Vamos bien")
         finish_time = datetime.now()
         tiempo = finish_time - start_time
-        #write_log_file(filename, filesize, "No se entrega el archivo exitosamente", tiempo, contador )
+        write_log_file(filename, filesize, "No se entrega el archivo exitosamente", tiempo, contador )
 
         print("Un thread ha acabado:" + str(e))
         # Cerrar la conexion del socket
         ClientSocketUDP.close()
         ClientSocket.close()
 
-        
-    finish_time = datetime.now()
-    tiempo = finish_time - start_time
-    write_log_file(filename, filesize, "Se entrega exitosamente", tiempo, contador )
-    ClientSocketUDP.close()
-    ClientSocket.close()
     
 # Ingresar el numero de clientes a establecer conexion
 numClientes = int(input("Ingrese el número de clientes: "))
@@ -86,3 +79,15 @@ while ThreadCount < numClientes:
     time.sleep(1)
     ThreadCount += 1
     print("Numero del Thread: " + str(ThreadCount))
+
+def write_log_file (file_name, file_size, status_file,time, num_package):
+    today = datetime.now()
+    name_file = str(today.year) + "-" + str(today.month) + "-" + str(today.day) + "-" + str(today.hour) + "-" + str(today.minute) + "-" + str(today.second) + "-" + str(today.microsecond) + str(file_name[7:8]) + "-log.txt"
+    log_file = open("./Client/Logs/" + name_file, "w")
+    log_file.write("Nombre del archivo: " + file_name + "\n")
+    log_file.write("Tamanio del archivo: " + str((os.path.getsize("./Client/ArchivosRecibidos/"+file_name))) + "\n")
+    log_file.write("Cliente que recibe la transeferencia de archivos: " + str(file_name[7:8]) + "\n")
+    log_file.write("Estado de entrega del archivo: " + str(status_file) + "\n")
+    log_file.write("Tiempo de transferencia: " + str(time) + "\n")
+    log_file.write("Numero de paquetes enviado: " + str(num_package) + "\n")
+    log_file.write("Valor total de bytes enviado: " + str(int(file_size + (num_package * 8))) + "\n")
