@@ -112,9 +112,9 @@ def threaded_client(connection, connectionUDP, serverAdr):
 
 # Contador del numero de threads local para el while
 ThreadCount = 0
-
+numClientes = 25
 # Creacion de threads, entablar conexiones y iniciar el metodo threade_client de cada thread
-while ThreadCount < NUM_CLIENTES:
+while ThreadCount < numClientes:
     Client, address = ServerSocket.accept()
     print("Conectado con: " + address[0] + ":" + str(address[1]))
 
