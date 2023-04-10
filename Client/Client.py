@@ -15,6 +15,7 @@ PORT_UDP = 12000
 
 
 contador = 0
+numClientes = 0
 
 def correr_clientes(ClientSocket, ClientSocketUDP, ServerAddress):
     global contador 
@@ -29,7 +30,7 @@ def correr_clientes(ClientSocket, ClientSocketUDP, ServerAddress):
         ClientSocket.send(str.encode(mensaje))
         received = ClientSocket.recv(BUFFER_SIZE).decode()
 
-        filename, filesize = received.split(SEPARATOR)
+        filename, filesize, numClientes = received.split(SEPARATOR)
         filename = os.path.basename(filename)
         filesize = int(filesize)
 
@@ -55,9 +56,10 @@ def correr_clientes(ClientSocket, ClientSocketUDP, ServerAddress):
         ClientSocketUDP.close()
         ClientSocket.close()
 
-    
-# Ingresar el numero de clientes a establecer conexion
-numClientes = int(input("Ingrese el número de clientes: "))
+    finish_time = datetime.now()
+    tiempo = finish_time - start_time
+    write_log_file(filename, filesize, "Se entrega el archivo exitosamente", tiempo )
+
 
 # Contador del numero de threads local para el while
 ThreadCount = 0

@@ -88,7 +88,7 @@ def threaded_client(connection, connectionUDP, serverAdr):
             while contador < NUM_CLIENTES:   
                 continue 
             extension = FILE_NAME.split('.')[2]
-            c.send(f"Cliente{numero}-Prueba-{NUM_CLIENTES}.{extension}{SEPARATOR}{FILE_SIZE}".encode())
+            c.send(f"Cliente{numero}-Prueba-{NUM_CLIENTES}.{extension}{SEPARATOR}{FILE_SIZE}{SEPARATOR}{NUM_CLIENTES}".encode())
 
             mensaje, address = connectionUDP.recvfrom(BUFFER_SIZE_UDP)
             with open(FILE_NAME, "rb") as f:
