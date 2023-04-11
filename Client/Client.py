@@ -13,8 +13,6 @@ HOST = '192.168.152.131'
 PORT = 9879
 PORT_UDP = 12000
 
-# Ingresar el numero de clientes a establecer conexion
-numClientes = int(input("Ingrese el número de clientes: "))
 
 contador = 0
 
@@ -28,10 +26,10 @@ def correr_clientes(ClientSocket, ClientSocketUDP, ServerAddress):
     try:
         ClientSocket.connect((HOST, PORT))
         mensaje = "listo"
-        ClientSocket.send(str.encode(str(numClientes)))
+        ClientSocket.send(str.encode(mensaje))
         received = ClientSocket.recv(BUFFER_SIZE).decode()
 
-        filename, filesize, numClientes = received.split(SEPARATOR)
+        filename, filesize = received.split(SEPARATOR)
         filename = os.path.basename(filename)
         filesize = int(filesize)
 
