@@ -80,8 +80,9 @@ def threaded_client(connection, connectionUDP, serverAdr):
     global contador 
     # Envio del archivo ocurre cuando todos los clientes esten listos
     with connection as c:
+        c.send(str(NUM_CLIENTES).encode())
         data = c.recv(BUFFER_SIZE)
-            
+        
         if data.decode('utf-8')=="listo":
             contador+=1
             numero = contador 
