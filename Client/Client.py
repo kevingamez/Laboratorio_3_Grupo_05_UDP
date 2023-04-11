@@ -26,10 +26,10 @@ def correr_clientes(ClientSocket, ClientSocketUDP, ServerAddress):
     try:
         ClientSocket.connect((HOST, PORT))
         mensaje = "listo"
-        ClientSocket.send(str.encode(mensaje))
+        ClientSocket.send(str.encode(str(numClientes)))
         received = ClientSocket.recv(BUFFER_SIZE).decode()
 
-        filename, filesize = received.split(SEPARATOR)
+        filename, filesize, numClientes = received.split(SEPARATOR)
         filename = os.path.basename(filename)
         filesize = int(filesize)
 
@@ -45,7 +45,6 @@ def correr_clientes(ClientSocket, ClientSocketUDP, ServerAddress):
         
 
     except socket.error as e:
-        print("Vamos bien")
         finish_time = datetime.now()
         tiempo = finish_time - start_time
         write_log_file(filename, filesize, "No se entrega el archivo exitosamente", tiempo )
