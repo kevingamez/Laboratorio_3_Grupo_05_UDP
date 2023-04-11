@@ -13,6 +13,8 @@ HOST = '192.168.152.131'
 PORT = 9879
 PORT_UDP = 12000
 
+# Ingresar el numero de clientes a establecer conexion
+numClientes = int(input("Ingrese el número de clientes: "))
 
 contador = 0
 
@@ -55,8 +57,6 @@ def correr_clientes(ClientSocket, ClientSocketUDP, ServerAddress):
         ClientSocket.close()
 
     
-# Ingresar el numero de clientes a establecer conexion
-numClientes = int(input("Ingrese el número de clientes: "))
 
 # Contador del numero de threads local para el while
 ThreadCount = 0

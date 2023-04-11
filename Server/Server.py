@@ -82,7 +82,7 @@ def threaded_client(connection, connectionUDP, serverAdr):
     with connection as c:
         data = c.recv(BUFFER_SIZE)
             
-        int(data.decode('utf-8'))
+        int(float(data.decode('utf-8')))
         contador+=1
         numero = contador 
         while contador < NUM_CLIENTES:   
