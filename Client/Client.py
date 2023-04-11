@@ -13,10 +13,10 @@ HOST = '192.168.152.131'
 PORT = 9879
 PORT_UDP = 12000
 
-numClientes = 25
+
 contador = 0
 # Ingresar el numero de clientes a establecer conexion
-
+numClientes = int(input("Ingrese el número de clientes: "))
 
 def correr_clientes(ClientSocket, ClientSocketUDP, ServerAddress):
     global contador 
@@ -28,8 +28,10 @@ def correr_clientes(ClientSocket, ClientSocketUDP, ServerAddress):
     try:
         ClientSocket.connect((HOST, PORT))
         mensaje = "listo"
+        print(Client.recv(1024).decode())
         ClientSocket.send(str.encode(mensaje))
         # Enviar el número de clientes al servidor
+        ClientSocket.send(str(numClientes).encode())
         received = ClientSocket.recv(BUFFER_SIZE).decode()
 
         filename, filesize = received.split(SEPARATOR)
@@ -70,7 +72,7 @@ while ThreadCount < numClientes:
     # Creacion del socket UDP
     ClientUDP = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     server_address = (HOST, PORT_UDP)
-    numClientes = int(Client.recv(1024).decode())
+    
     # Creacion de los threads
     threading.Thread(target=correr_clientes, args=(Client, ClientUDP, server_address, )).start()
 
