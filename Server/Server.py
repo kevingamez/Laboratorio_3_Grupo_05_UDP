@@ -22,10 +22,10 @@ except socket.error as e:
 # Funcion para imprimir los archivos diponibles en el servidor (prueba100MB y prueba250 MB)
 def print_files():
     files_server = os.listdir('./files/')
-    
     print("Los archivos que estan disponibles en el servidor son:")
+    files = ["100MB.txt", "250MB.txt"]	
     for i in range (len(files_server)):
-        print(str(i+1) + "." + files_server[i])
+        print(str(i+1) + "." + files[i])
 
 # Funcion para obtener el archivo dado el numero ingresado como parametro
 def get_file (num_file):
@@ -81,7 +81,7 @@ def threaded_client(connection, connectionUDP, serverAdr):
     # Envio del archivo ocurre cuando todos los clientes esten listos
     with connection as c:
         data = c.recv(BUFFER_SIZE)
-        c.send(str(NUM_CLIENTES).encode())
+            
         if data.decode('utf-8')=="listo":
             contador+=1
             numero = contador 
